@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/DusanKasan/parsemail"
 	"github.com/spf13/cobra"
+
+	"github.com/peter9207/trips-email-parser/email"
 )
 
 // parseCmd represents the parse command
@@ -37,14 +38,16 @@ to quickly create a Cobra application.`,
 			panic(err)
 		}
 
-		email, err := parsemail.Parse(reader) // returns Email struct and error
+		e, err := email.Parse(reader) // returns Email struct and error
 		if err != nil {
 			// handle error
+			panic(err)
 		}
 
-		fmt.Println(email.Subject)
-		fmt.Println(email.From)
-		fmt.Println(email.To)
+		fmt.Println(e.String())
+		// fmt.Println(email.Subject)
+		// fmt.Println(email.From)
+		// fmt.Println(email.To)
 		// fmt.Println(email.HTMLBody)
 
 	},
