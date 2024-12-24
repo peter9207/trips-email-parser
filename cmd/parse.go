@@ -6,10 +6,12 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 
 	"github.com/peter9207/trips-email-parser/email"
+	"github.com/peter9207/trips-email-parser/html"
 )
 
 // parseCmd represents the parse command
@@ -44,7 +46,13 @@ to quickly create a Cobra application.`,
 			panic(err)
 		}
 
+
+
+
 		fmt.Println(e.String())
+
+
+		html.Get(strings.NewReader(e.HTMLBody), "Button")
 		// fmt.Println(email.Subject)
 		// fmt.Println(email.From)
 		// fmt.Println(email.To)
