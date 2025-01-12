@@ -46,18 +46,7 @@ to quickly create a Cobra application.`,
 			panic(err)
 		}
 
-
-
-
-		fmt.Println(e.String())
-
-
-		html.Get(strings.NewReader(e.HTMLBody), "Button")
-		// fmt.Println(email.Subject)
-		// fmt.Println(email.From)
-		// fmt.Println(email.To)
-		// fmt.Println(email.HTMLBody)
-
+		html.Treefy(strings.NewReader(e.HTMLBody))
 	},
 }
 

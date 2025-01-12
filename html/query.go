@@ -1,16 +1,15 @@
 package html
-import(
 
-	"log"
+import (
 	"fmt"
 	"io"
+	"log"
+	"strings"
+
 	"github.com/PuerkitoBio/goquery"
 )
 
-
-
-func Get(reader io.Reader, tag string){
-
+func Get(reader io.Reader, tag string, text string) {
 
 	doc, err := goquery.NewDocumentFromReader(reader)
 	if err != nil {
@@ -18,16 +17,19 @@ func Get(reader io.Reader, tag string){
 		return
 	}
 
-
 	// Find the review items
-	doc.Find("div").Each(func(i int, s *goquery.Selection) {
+	doc.Find(tag).Each(func(i int, s *goquery.Selection) {
 		// For each item found, get the title
-		title := s.Find("a").Text()
-		fmt.Printf("Review %d: %s\n", i, title)
+		title := strings.TrimSpace(s.Text())
+
+		contains := strings.Cont
+		ins(title, text)
+		// fmt.Printf("contains  %s, %v,  %v", title, text, contains)
+
+		if contains {
+			fmt.Printf("%s %d %s: %s\n", tag, i, text, title)
+		}
+
 	})
-
-
-
-
 
 }
