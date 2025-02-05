@@ -15,6 +15,8 @@ type Element struct {
 	Children []Element
 }
 
+var resultMap map[string]string
+
 func PrintNode(prefix string, n *html.Node, newLine bool) {
 
 	var t string
@@ -38,13 +40,28 @@ func PrintNode(prefix string, n *html.Node, newLine bool) {
 	}
 }
 
+func ContainsKeyWords(data string) bool {
+	if strings.Contains(data, "CHECK-IN") {
+		return true
+	}
+	return false
+}
+
 func PrintTree(root *html.Node) {
-	PrintNode("root", root, true)
+	// PrintNode("root", root, true)
 
 	child := root.FirstChild
 
 	for child != nil {
 		PrintTree(child)
+		data := strings.ToUpper(child.Data)
+
+		if ContainsKeyWords(data) {
+			fmt.Println(data)
+
+			PrintNode("found", child, true)
+		}
+
 		child = child.NextSibling
 	}
 

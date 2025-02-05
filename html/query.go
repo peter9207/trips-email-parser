@@ -22,8 +22,7 @@ func Get(reader io.Reader, tag string, text string) {
 		// For each item found, get the title
 		title := strings.TrimSpace(s.Text())
 
-		contains := strings.Cont
-		ins(title, text)
+		contains := strings.Contains(title, text)
 		// fmt.Printf("contains  %s, %v,  %v", title, text, contains)
 
 		if contains {
