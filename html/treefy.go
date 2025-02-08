@@ -3,6 +3,7 @@ package html
 import (
 	"fmt"
 	"io"
+	"regexp"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -13,6 +14,18 @@ type Element struct {
 	Body     string
 	Props    []string
 	Children []Element
+}
+
+type Keyword struct {
+	Word   string
+	Format string
+}
+
+var keywords = []Keyword{
+	{
+		Word:   "CHECK-IN",
+		Format: "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}",
+	},
 }
 
 var resultMap map[string]string
@@ -40,9 +53,32 @@ func PrintNode(prefix string, n *html.Node, newLine bool) {
 	}
 }
 
+func ContainsDate(data string) bool {
+
+	var dateRegex = []string{
+		"\\d{4}-\\d{2}-\\d{2}",
+	}
+
+	for _, pattern := range dateRegex {
+		if ok, _ := regexp.MatchString(pattern, data); ok {
+			return true
+		}
+
+	}
+	return false
+}
+
 func ContainsKeyWords(data string) bool {
-	if strings.Contains(data, "CHECK-IN") {
-		return true
+
+	var keywords = []string{
+		"CHECK-IN",
+	}
+
+	for _, keyword := range keywords {
+		if strings.Contains(data, keyword) {
+			fmt.Println("found keyword", data)
+			return true
+		}
 	}
 	return false
 }
@@ -56,11 +92,15 @@ func PrintTree(root *html.Node) {
 		PrintTree(child)
 		data := strings.ToUpper(child.Data)
 
-		if ContainsKeyWords(data) {
-			fmt.Println(data)
+		if ContainsDate(data) {
+			fmt.Println("found date", data)
 
-			PrintNode("found", child, true)
 		}
+		// if ContainsKeyWords(data) {
+		// 	fmt.Println(data)
+
+		// 	PrintNode("found", child, true)
+		// }
 
 		child = child.NextSibling
 	}
